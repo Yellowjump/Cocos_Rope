@@ -46,7 +46,7 @@ export default class ropeScr_001 extends cc.Component {
     @property(cc.Node)PointArea=null;
     @property(cc.Node)ropeEnd=null;
     @property(cc.Node)ci=null;
-    @property(cc.Label)dis=null;
+    //@property(cc.Label)dis=null;
     @property(cc.Float)lineWidth:number=0;
     mouseWorldPos:cc.Vec2=new cc.Vec2(0,0);
     points=[];
@@ -77,11 +77,11 @@ export default class ropeScr_001 extends cc.Component {
     }
     touchstart(e:cc.Event.EventTouch){
         this.flag=true;
-        this.mouseWorldPos=e.getLocation().add(new cc.Vec2(0,100));
+        this.mouseWorldPos=e.getLocation().add(new cc.Vec2(0,50));
         //this.ctx.moveTo(this.node.convertToNodeSpaceAR(e.getLocation()).x,this.node.convertToNodeSpaceAR(e.getLocation()).y);
     }
     touchmove(e:cc.Event.EventTouch){
-        this.mouseWorldPos=e.getLocation().add(new cc.Vec2(0,100));   
+        this.mouseWorldPos=e.getLocation().add(new cc.Vec2(0,50));   
     }
     touchup(e:cc.Event.EventTouch){
         this.flag=false;
@@ -93,12 +93,12 @@ export default class ropeScr_001 extends cc.Component {
     update (dt) {
         
         this.ctx.clear();
-        this.ctx.strokeColor=cc.Color.BLUE;
+        this.ctx.strokeColor=cc.color(0,100,100,255);
         this.ctx.LineJoin= cc.Graphics.LineJoin.ROUND;
         this.ctx.lineCap = cc.Graphics.LineCap.ROUND;
-        this.dis.string=this.c0+this.columns[this.columns.length-1].preTangentWorldPos.sub(this.columns[this.columns.length-1].columnWorldPos).normalize()+this.newTangentP.sub(this.columns[this.columns.length-1].columnWorldPos).normalize();
+        //this.dis.string=this.c0+this.columns[this.columns.length-1].preTangentWorldPos.sub(this.columns[this.columns.length-1].columnWorldPos).normalize()+this.newTangentP.sub(this.columns[this.columns.length-1].columnWorldPos).normalize();
         if(this.flag){
-            this.ropeEnd.getComponent(cc.RigidBody).linearVelocity=this.mouseWorldPos.sub(this.ropeEnd.parent.convertToWorldSpaceAR(this.ropeEnd.position)).mul(17);
+            this.ropeEnd.getComponent(cc.RigidBody).linearVelocity=this.mouseWorldPos.sub(this.ropeEnd.parent.convertToWorldSpaceAR(this.ropeEnd.position)).mul(10);
         }
         else{
             if(this.ropeEnd.convertToNodeSpaceAR(this.columns[this.columns.length-1].preTangentWorldPos).mag()<10){
@@ -136,16 +136,16 @@ export default class ropeScr_001 extends cc.Component {
             else{
                 //再次碰到原来的column
                 this.newTangentP=this.CalcQieDian(this.columns[this.columns.length-1].columnWorldPos,this.ropeEnd.parent.convertToWorldSpaceAR(this.ropeEnd.position),this.columns[this.columns.length-1].column.width/2,this.columns[this.columns.length-1].preTangentWorldPos);
-                this.ctx.strokeColor=cc.Color.RED;
-                this.ctx.circle(this.node.convertToNodeSpaceAR(this.newTangentP).x,this.node.convertToNodeSpaceAR(this.newTangentP).y,10);
+                this.ctx.strokeColor=cc.color(255,0,100,255);
+                this.ctx.circle(this.newTangentP.x,this.newTangentP.y,10);
                 this.ctx.stroke();
-                this.ctx.strokeColor=cc.Color.BLUE;
+                this.ctx.strokeColor=cc.color(0,100,100,255);
                 
                  
                 
                 
                 if(this.columns[this.columns.length-1].rad*(this.columns[this.columns.length-1].rad+this.radTwoPOnR(this.columns[this.columns.length-1].preTangentWorldPos,this.newTangentP,this.columns[this.columns.length-1].columnWorldPos))<0){
-                    console.log("!!!!!pop");
+                    //console.log("!!!!!pop");
                     var c=this.columns.pop();
                     if(this.ifOnlyColumn(c.column)==0){
                         //只有一份c.column
@@ -164,12 +164,12 @@ export default class ropeScr_001 extends cc.Component {
             if(this.columns.length>1){
 
                 this.newTangentP=this.CalcQieDian(this.columns[this.columns.length-1].columnWorldPos,this.ropeEnd.parent.convertToWorldSpaceAR(this.ropeEnd.position),this.columns[this.columns.length-1].column.width/2,this.columns[this.columns.length-1].preTangentWorldPos);
-                this.ctx.strokeColor=cc.Color.RED;
-                this.ctx.circle(this.node.convertToNodeSpaceAR(this.newTangentP).x,this.node.convertToNodeSpaceAR(this.newTangentP).y,10);
+                this.ctx.strokeColor=cc.color(255,0,100,255);
+                this.ctx.circle(this.newTangentP.x,this.newTangentP.y,10);
                 this.ctx.stroke();
-                this.ctx.strokeColor=cc.Color.BLUE;
+                this.ctx.strokeColor=cc.color(0,100,100,255);
                 if(this.columns[this.columns.length-1].rad*(this.columns[this.columns.length-1].rad+this.radTwoPOnR(this.columns[this.columns.length-1].preTangentWorldPos,this.newTangentP,this.columns[this.columns.length-1].columnWorldPos))<0){
-                    console.log("!!!!!pop");
+                    //console.log("!!!!!pop");
                     var c=this.columns.pop();
                     if(this.ifOnlyColumn(c.column)==0){
                         //只有一份c.column
@@ -189,14 +189,14 @@ export default class ropeScr_001 extends cc.Component {
             }*/
             var pz=this.columns[this.columns.length-1].startWorldPos.sub(this.columns[this.columns.length-1].columnWorldPos).rotate(this.columns[this.columns.length-1].rad/2).add(this.columns[this.columns.length-1].columnWorldPos);
             this.ctx.strokeColor=cc.Color.YELLOW;
-            this.ctx.circle(this.node.convertToNodeSpaceAR(pz).x,this.node.convertToNodeSpaceAR(pz).y,10);
+            this.ctx.circle(pz.x,pz.y,10);
             this.ctx.stroke();
-            this.ctx.strokeColor=cc.Color.BLUE;
+            this.ctx.strokeColor=cc.color(0,100,100,255);
             var pzno=pz.sub(this.columns[this.columns.length-1].columnWorldPos);
             if(Math.abs(this.columns[this.columns.length-1].rad)<(Math.PI*2)-0.5){
 
                 if(pzno.normalize().dot((this.columns[this.columns.length-2].preTangentWorldPos.sub( this.columns[this.columns.length-1].startWorldPos)).normalize())>0){
-                    console.log("!!!!!pop   dot");
+                    //console.log("!!!!!pop   dot");
                     var c=this.columns.pop();
                     if(this.ifOnlyColumn(c.column)==0){
                         //只有一份c.column
@@ -208,31 +208,31 @@ export default class ropeScr_001 extends cc.Component {
         this.ctx.lineWidth=this.lineWidth;
         
         
-        this.ctx.moveTo(this.node.convertToNodeSpaceAR(this.ropeEnd.parent.convertToWorldSpaceAR(this.ropeEnd.position)).x,this.node.convertToNodeSpaceAR(this.ropeEnd.parent.convertToWorldSpaceAR(this.ropeEnd.position)).y);
+        this.ctx.moveTo(this.ropeEnd.parent.convertToWorldSpaceAR(this.ropeEnd.position).x,this.ropeEnd.parent.convertToWorldSpaceAR(this.ropeEnd.position).y);
         for(var i=this.columns.length-1;i>0;i--){
             
             if(this.columns.length!=1)
                 
                 
                 var nor=this.columns[i].preTangentWorldPos.sub(this.columns[i].columnWorldPos).normalize();
-                var po=this.node.convertToNodeSpaceAR(this.columns[i].preTangentWorldPos.add(nor.mul(this.lineWidth/2)));
+                var po=this.columns[i].preTangentWorldPos.add(nor.mul(this.lineWidth/2));
                 this.ctx.lineTo(po.x,po.y);
             
             
             //对第i个柱子画弧
             if(this.columns[i].rad>=Math.PI*2){
-                this.ctx.circle(this.node.convertToNodeSpaceAR(this.columns[i].columnWorldPos).x,this.node.convertToNodeSpaceAR(this.columns[i].columnWorldPos).y,this.columns[i].column.width/2+ this.lineWidth/2);
-                this.ctx.moveTo(this.node.convertToNodeSpaceAR(this.columns[i].preTangentWorldPos).x,this.node.convertToNodeSpaceAR(this.columns[i].preTangentWorldPos).y);
+                this.ctx.circle(this.columns[i].columnWorldPos.x,this.columns[i].columnWorldPos.y,this.columns[i].column.width/2+ this.lineWidth/2);
+                this.ctx.moveTo(this.columns[i].preTangentWorldPos.x,this.columns[i].preTangentWorldPos.y);
             }
             else{
                 var strad=this.radOnePointOnCircle(this.columns[i].startWorldPos,this.columns[i].columnWorldPos);
-                this.ctx.arc(this.node.convertToNodeSpaceAR(this.columns[i].columnWorldPos).x,this.node.convertToNodeSpaceAR(this.columns[i].columnWorldPos).y,this.columns[i].column.width/2+ this.lineWidth/2,strad,strad+this.columns[i].rad,this.columns[i].rad>0);
+                this.ctx.arc(this.columns[i].columnWorldPos.x,this.columns[i].columnWorldPos.y,this.columns[i].column.width/2+ this.lineWidth/2,strad,strad+this.columns[i].rad,this.columns[i].rad>0);
             }
             var norSt=this.columns[i].startWorldPos.sub(this.columns[i].columnWorldPos).normalize();
-            var poSt=this.node.convertToNodeSpaceAR(this.columns[i].startWorldPos.add(norSt.mul(this.lineWidth/2)));
+            var poSt=this.columns[i].startWorldPos.add(norSt.mul(this.lineWidth/2));
             this.ctx.moveTo(poSt.x,poSt.y);
         }
-        this.ctx.lineTo(0,0);
+        this.ctx.lineTo(this.node.parent.convertToWorldSpaceAR(this.node.position).x,this.node.parent.convertToWorldSpaceAR(this.node.position).y);
 
         //this.ctx.fillColor = cc.Color.YELLOW;
         var q=this.CalcQieDian(this.ci.parent.convertToWorldSpaceAR(this.ci.position),this.ropeEnd.parent.convertToWorldSpaceAR(this.ropeEnd.position),20);
