@@ -42,7 +42,7 @@
   },
   "startScene": "0a6a651f-2867-44d8-88be-39343ed783c4",
   "title": "Rope",
-  "webOrientation": "landscape",
+  "webOrientation": "portrait",
   "wechatgame": {
     "REMOTE_SERVER_ROOT": "",
     "appid": "wx6ac3f5090a6b99c5",
