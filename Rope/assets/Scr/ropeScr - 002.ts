@@ -211,7 +211,7 @@ export default class ropeScr_001 extends cc.Component {
         this.ctx.moveTo(this.ropeEnd.parent.convertToWorldSpaceAR(this.ropeEnd.position).x,this.ropeEnd.parent.convertToWorldSpaceAR(this.ropeEnd.position).y);
         for(var i=this.columns.length-1;i>0;i--){
             
-            if(this.columns.length!=1)
+            //if(this.columns.length!=1)
                 
                 
                 var nor=this.columns[i].preTangentWorldPos.sub(this.columns[i].columnWorldPos).normalize();
@@ -220,7 +220,8 @@ export default class ropeScr_001 extends cc.Component {
             
             
             //对第i个柱子画弧
-            if(this.columns[i].rad>=Math.PI*2){
+            if(Math.abs( this.columns[i].rad)>=Math.PI*2){
+                console.log("!!!rad>2pi");
                 this.ctx.circle(this.columns[i].columnWorldPos.x,this.columns[i].columnWorldPos.y,this.columns[i].column.width/2+ this.lineWidth/2);
                 this.ctx.moveTo(this.columns[i].preTangentWorldPos.x,this.columns[i].preTangentWorldPos.y);
             }

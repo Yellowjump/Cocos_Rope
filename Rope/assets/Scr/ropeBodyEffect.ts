@@ -14,22 +14,20 @@ const {ccclass, property} = cc._decorator;
 export default class NewClass extends cc.Component {
     material: cc.Material;
     mov:cc.Vec3;
-    rotateMat:cc.Mat4;
+    modelMat:cc.Mat4;
     onLoad () {
-        this.material=this.getComponent(cc.Sprite).getMaterial(0);
-        this.mov=new cc.Vec3(1,1,0);
-        this.rotateMat=new cc.Mat4(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
-        
+        var gl = cc._renderContext;
+        var glProgram = new cc.GLProgram();
+        var a_position = gl.getAttribLocation( glProgram.programObj, 'aposition' )
+        var a_texCoord = gl.getAttribLocation( glProgram.programObj, 'atexCoord' )
+        console.log( 'a_position', a_position);
+        console.log( 'a_texCoord', a_texCoord);
     }
 
     update (dt) {
-        //this.mov.addSelf(new cc.Vec3(1,0,0));
-        this.rotateMat.translate(this.mov,this.rotateMat);
-        //this.rotateMat.rotate(1,new cc.Vec3(0,0,1),this.rotateMat);
         
-        this.material.effect.setProperty('rotateMat',this.rotateMat);
-        console.log(this.material.effect.getProperty('a_position'));
-        //this.material.effect.setProperty('ropeLength',2);
-        this.material.effect.setProperty('movement',this.mov);
+        
+        
     }
+    
 }

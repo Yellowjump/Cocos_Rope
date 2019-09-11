@@ -45,7 +45,7 @@ attribute vec3 a_position;
 attribute lowp vec4 a_color;
 uniform vec3 movement;
 uniform float ropeLength;
-uniform mat4 rotateMat;
+uniform mat4 modelMat;
 #if USE_TEXTURE
   attribute mediump vec2 a_uv0;
   varying mediump vec2 v_uv0;
@@ -58,13 +58,12 @@ void main () {
   #if _USE_MODEL
     mvp = cc_matViewProj * cc_matWorld;
   #else
-    mvp =rotateMat*cc_viewProj;
+    mvp =cc_matViewProj*modelMat;
   #endif
 
   #if USE_TEXTURE
     v_uv0 = a_uv0;
   #endif
-  mat4 vp=cc_viewProj;
   v_color = a_color;
 
   gl_Position =mvp* vec4(a_position, 1);
@@ -89,9 +88,9 @@ varying lowp vec4 v_color;
 
 void main () {
   vec4 color = v_color;
-
+  vec2 myuv =vec2(0,1) - v_uv0;
   #if USE_TEXTURE
-    color *= texture2D(texture, v_uv0);
+    color *= texture2D(texture,myuv);
     #if _USE_ETC1_TEXTURE
       color.a *= texture2D(texture, v_uv0 + vec2(0, 0.5)).r;
     #endif
